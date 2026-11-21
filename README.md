@@ -57,3 +57,17 @@
    el conjunto de todos los equipos de esas líneas. Luego `.write({"estado": "prestado"})` actualiza el campo
    en todos ellos de una sola vez. Los métodos de Odoo trabajan sobre *recordsets* (varios registros), por eso
    no se necesita recorrer uno por uno.
+
+### Paso 5. Reglas del préstamo
+
+1. **El campo `equipo_id` ya filtra los equipos disponibles. ¿Por qué hace falta el TODO 5?**
+   El `domain` solo filtra la lista desplegable en el momento en que se elige el equipo. No impide que, después,
+   el equipo deje de estar disponible (por ejemplo, se envía a mantenimiento o lo toma otro préstamo) antes de
+   pulsar Prestar. Tampoco se aplica si el registro se crea por importación o por código. El TODO 5 revisa el
+   estado real del equipo justo en el momento de prestar.
+
+2. **¿En qué momento se ejecuta un método con `@api.constrains`? ¿Y la validación de `action_prestar`?**
+   Un `@api.constrains` se ejecuta automáticamente al crear o guardar (create/write) un registro cuando cambia
+   alguno de los campos indicados, sin importar si viene de la interfaz, de una importación o de código; si
+   falla, se cancela el guardado. La validación de `action_prestar` solo corre cuando alguien pulsa el botón
+   Prestar (o llama al método).
