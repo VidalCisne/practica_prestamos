@@ -71,3 +71,15 @@
    alguno de los campos indicados, sin importar si viene de la interfaz, de una importación o de código; si
    falla, se cancela el guardado. La validación de `action_prestar` solo corre cuando alguien pulsa el botón
    Prestar (o llama al método).
+
+### Paso 6. Contacto, kanban y búsqueda
+
+1. **¿Qué pasa si arrastra una tarjeta del kanban a otra columna? ¿Por qué?**
+   El equipo cambia de estado: Odoo escribe en el campo por el que se agrupa (`estado`) el valor de la columna
+   destino. Pasa porque el kanban agrupado por un campo `Selection` usa el arrastre para modificar ese campo.
+   Ojo: así se cambia el estado sin pasar por los botones ni las validaciones de los préstamos, por ejemplo
+   se puede marcar como Prestado un equipo que no tiene ningún préstamo.
+
+2. **El campo `prestamo_ids` se agregó a `res.partner`. ¿Se crea una columna nueva en la tabla de contactos?**
+   No. Un `One2many` no se guarda en la tabla: es solo una forma de ver, desde el contacto, los préstamos cuyo
+   `partner_id` apunta a él. El dato real vive en la columna `partner_id` de la tabla `prestamo_prestamo`.
