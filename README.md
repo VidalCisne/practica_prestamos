@@ -87,3 +87,4 @@
 ## Retos
 
 - **Reto 1. Marcar atrasado:** botón visible solo en estado Prestado; si la fecha de devolución ya pasó cambia a Atrasado y deja mensaje en el chatter, si no, muestra un `UserError`.
+- **Reto 2. Colores en la lista:** `decoration-danger` para atrasados y `decoration-muted` para devueltos.
