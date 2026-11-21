@@ -32,3 +32,15 @@
 2. **¿Qué hace `tracking=True` en el campo `state`?**
    Hace que cada vez que cambia el valor de `state`, Odoo escriba automáticamente en el chatter un mensaje con
    el valor anterior, el nuevo, el usuario y la fecha. Solo funciona porque el modelo hereda de `mail.thread`.
+
+### Paso 3. Equipos del préstamo
+
+1. **En `fields.One2many("prestamo.linea", "prestamo_id")`, ¿qué indica cada parámetro?**
+   El primero (`"prestamo.linea"`) es el modelo hijo, es decir, el tipo de registros que contiene la lista.
+   El segundo (`"prestamo_id"`) es el nombre del campo `Many2one` dentro de `prestamo.linea` que apunta de
+   regreso al préstamo; Odoo lo usa para saber qué líneas pertenecen a cada préstamo. El `One2many` no guarda
+   datos propios: es la vista inversa de ese `Many2one`.
+
+2. **¿Qué pasa con las líneas cuando se borra un préstamo? ¿Qué parte del código lo define?**
+   Se borran junto con el préstamo (borrado en cascada). Lo define `ondelete="cascade"` en el campo
+   `prestamo_id` de `prestamo.linea`.
