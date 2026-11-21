@@ -83,3 +83,7 @@
 2. **El campo `prestamo_ids` se agregó a `res.partner`. ¿Se crea una columna nueva en la tabla de contactos?**
    No. Un `One2many` no se guarda en la tabla: es solo una forma de ver, desde el contacto, los préstamos cuyo
    `partner_id` apunta a él. El dato real vive en la columna `partner_id` de la tabla `prestamo_prestamo`.
+
+## Retos
+
+- **Reto 1. Marcar atrasado:** botón visible solo en estado Prestado; si la fecha de devolución ya pasó cambia a Atrasado y deja mensaje en el chatter, si no, muestra un `UserError`.

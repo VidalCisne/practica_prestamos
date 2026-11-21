@@ -114,3 +114,18 @@ class PrestamoPrestamo(models.Model):
                 raise ValidationError(
                     "Un equipo no puede aparecer dos veces en el mismo préstamo."
                 )
+
+    def action_marcar_atrasado(self):
+        hoy = fields.Date.context_today(self)
+        for prestamo in self:
+            if prestamo.state != "prestado":
+                raise UserError(
+                    "Solo se puede marcar como atrasado un préstamo en estado Prestado."
+                )
+            if prestamo.fecha_devolucion >= hoy:
+                raise UserError("El préstamo todavía no está atrasado.")
+            prestamo.state = "atrasado"
+            prestamo.message_post(
+                body=f"El préstamo está atrasado: debía devolverse el "
+                f"{prestamo.fecha_devolucion}."
+            )
