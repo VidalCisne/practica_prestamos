@@ -20,3 +20,15 @@
    Cuando se duplica un equipo (Acción > Duplicar), los campos con `copy=False` no se copian. Así el duplicado
    sale sin código de inventario y obliga a escribir uno nuevo, porque el código identifica a un equipo físico
    y no debe repetirse.
+
+### Paso 2. Registro de préstamos
+
+1. **Este modelo usa `_name` y `_inherit` al mismo tiempo. ¿Qué hace cada uno aquí?**
+   `_name = "prestamo.prestamo"` define un modelo **nuevo** (con su propia tabla). `_inherit = ["mail.thread"]`,
+   al usarse junto con un `_name` distinto, hace que el modelo nuevo *incorpore* los campos y métodos de la
+   clase `mail.thread` (chatter, `message_post`, seguimiento de cambios). Es herencia por "mixin": no modifica
+   `mail.thread`, solo copia su funcionalidad al modelo nuevo.
+
+2. **¿Qué hace `tracking=True` en el campo `state`?**
+   Hace que cada vez que cambia el valor de `state`, Odoo escriba automáticamente en el chatter un mensaje con
+   el valor anterior, el nuevo, el usuario y la fecha. Solo funciona porque el modelo hereda de `mail.thread`.
