@@ -44,3 +44,16 @@
 2. **¿Qué pasa con las líneas cuando se borra un préstamo? ¿Qué parte del código lo define?**
    Se borran junto con el préstamo (borrado en cascada). Lo define `ondelete="cascade"` en el campo
    `prestamo_id` de `prestamo.linea`.
+
+### Paso 4. Flujo de estados
+
+1. **Los botones ya se ocultan según el estado. ¿Por qué los métodos vuelven a validar el estado?**
+   `invisible` solo afecta a la interfaz. El método se puede ejecutar por otras vías: una pantalla
+   desactualizada, un doble clic, la API/RPC, otro código o una acción automática. La validación en el servidor
+   garantiza que las reglas se cumplan siempre, no solo cuando el botón está visible.
+
+2. **¿Qué hace `prestamo.linea_ids.equipo_id.write(...)`? ¿Por qué no hace falta un `for` para cada equipo?**
+   `linea_ids` es el conjunto de líneas del préstamo; al pedir `.equipo_id` sobre ese conjunto, Odoo devuelve
+   el conjunto de todos los equipos de esas líneas. Luego `.write({"estado": "prestado"})` actualiza el campo
+   en todos ellos de una sola vez. Los métodos de Odoo trabajan sobre *recordsets* (varios registros), por eso
+   no se necesita recorrer uno por uno.
